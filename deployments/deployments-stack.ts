@@ -46,8 +46,8 @@ const createApp = async (lambdaJson: any): Promise<cdk.App> => {
   //   NOTE:apiGatewayを作成した際にapiGatewayがなんのlambdaを呼ぶかの設定という認識でいい？
   apiGateway.addDependency(lambda);
 
-  deploylist.forEach((deployListItem) => {
-    lambda.deploy({
+  deploylist.forEach(async (deployListItem) => {
+    await lambda.deploy({
       stackNameSuffix: STACK_NAME_SUFFIX,
       name: deployListItem.name,
       securityGroup: SECURITY_GROUP_ID,
@@ -55,7 +55,7 @@ const createApp = async (lambdaJson: any): Promise<cdk.App> => {
       params: deployListItem,
     });
 
-    apiGateway.deploy({
+    await apiGateway.deploy({
       stage: STAGE,
       lambdas: lambda.lambdas,
       isUseCognito: STAGE != "local" && deployListItem.auth,
