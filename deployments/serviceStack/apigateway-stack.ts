@@ -1,11 +1,11 @@
 import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import {
-  CognitoUserPoolsAuthorizer,
+  //   CognitoUserPoolsAuthorizer,
   Cors,
   LambdaIntegration,
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
-import { UserPool } from "aws-cdk-lib/aws-cognito";
+// import { UserPool } from "aws-cdk-lib/aws-cognito";
 import { Construct } from "constructs";
 import { DeploySetting } from "../deploy-list";
 
