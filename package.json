@@ -8,8 +8,5 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@aws-cdk/aws-apigateway": "^1.192.0",
-    "@aws-cdk/aws-lambda": "^1.192.0"
-  }
+  "dependencies": {}
 }
