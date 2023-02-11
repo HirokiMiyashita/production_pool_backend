@@ -7,7 +7,7 @@ const handler = async () => {
 const action = () => {
   return apiResponse({
     statusCode: 200,
-    body: "テスト",
+    body: "テストです",
   });
 };
 
