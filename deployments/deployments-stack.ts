@@ -2,14 +2,14 @@ import * as cdk from "aws-cdk-lib";
 import { execSync } from "child_process";
 import { deploylist } from "./deploy-list";
 import { ApiStack } from "./serviceStack/apigateway-stack";
-import { DBStack } from "./serviceStack/db-stack";
+// import { DBStack } from "./serviceStack/db-stack";
 import { LambdaStack } from "./serviceStack/lambda-stack";
 const { STAGE = "local" } = process.env;
 const { STACK_NAME_SUFFIX = "local" } = process.env;
 // const { VPC = undefined } = process.env;
 const { SECURITY_GROUP_ID = "" } = process.env;
 
-const createApp = async (lambdaJson: any, DBJson: any): Promise<cdk.App> => {
+const createApp = async (lambdaJson: any): Promise<cdk.App> => {
   const app = new cdk.App();
   cdk.Tags.of(app).add("Name", "PRODUCTION-POOL-BACKEND-CDK");
   cdk.Tags.of(app).add("Price", "production-pool-backend");
@@ -64,18 +64,18 @@ const createApp = async (lambdaJson: any, DBJson: any): Promise<cdk.App> => {
     });
   });
 
-  const db = new DBStack();
-  await db.initDatebase({ stage: STAGE, secretJson: DBJson });
+  //   const db = new DBStack();
+  //   await db.initDatebase({ stage: STAGE, secretJson: DBJson });
 
   return app;
 };
 
-let DBJson = {};
+// let DBJson = {};
 let lambdaJson = {};
 const get_command = `aws secretsmanager get-secret-value --secret-id pool/postgres`;
 const result = execSync(get_command);
 const secretsManagerJson = JSON.parse(result.toString());
 lambdaJson = JSON.parse(secretsManagerJson.SecretString);
-DBJson = JSON.parse(secretsManagerJson.SecretString);
+// DBJson = JSON.parse(secretsManagerJson.SecretString);
 
-createApp(lambdaJson, DBJson);
+createApp(lambdaJson);
