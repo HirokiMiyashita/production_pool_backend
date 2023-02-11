@@ -9,7 +9,7 @@ const { STACK_NAME_SUFFIX = "local" } = process.env;
 // const { VPC = undefined } = process.env;
 const { SECURITY_GROUP_ID = "" } = process.env;
 
-const createApp = async (lambdaJson: any): Promise<cdk.App> => {
+const createApp = async (lambdaJson: any, DBJson: any): Promise<cdk.App> => {
   const app = new cdk.App();
   cdk.Tags.of(app).add("Name", "PRODUCTION-POOL-BACKEND-CDK");
   cdk.Tags.of(app).add("Price", "production-pool-backend");
@@ -78,4 +78,4 @@ const secretsManagerJson = JSON.parse(result.toString());
 lambdaJson = JSON.parse(secretsManagerJson.SecretString);
 DBJson = JSON.parse(secretsManagerJson.SecretString);
 
-createApp(lambdaJson);
+createApp(lambdaJson, DBJson);
