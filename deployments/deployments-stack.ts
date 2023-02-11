@@ -5,7 +5,7 @@ import { ApiStack } from "./serviceStack/apigateway-stack";
 import { LambdaStack } from "./serviceStack/lambda-stack";
 const { STAGE = "local" } = process.env;
 const { STACK_NAME_SUFFIX = "local" } = process.env;
-const { VPC = undefined } = process.env;
+// const { VPC = undefined } = process.env;
 const { SECURITY_GROUP_ID = "" } = process.env;
 
 const createApp = async (lambdaJson: any): Promise<cdk.App> => {
@@ -17,7 +17,7 @@ const createApp = async (lambdaJson: any): Promise<cdk.App> => {
   cdk.Tags.of(app).add("Sys-group", "production-pool-backend");
 
   const lambda = new LambdaStack(app, `lambda-${STACK_NAME_SUFFIX}`, {
-    vpc: VPC,
+    // vpc: VPC,
     env:
       STAGE === "local"
         ? undefined
@@ -34,7 +34,7 @@ const createApp = async (lambdaJson: any): Promise<cdk.App> => {
     stackNameSuffix: STACK_NAME_SUFFIX,
     lambdas: lambda.lambdas,
     // NOTE:everyでdeploylistの何を見てる？
-    isUseCognito: STAGE != "local" && deploylist.every((v) => v.auth),
+    // isUseCognito: STAGE != "local" && deploylist.every((v) => v.auth),
     setting: {
       name: "",
       urls: [],
@@ -46,7 +46,7 @@ const createApp = async (lambdaJson: any): Promise<cdk.App> => {
   //   NOTE:apiGatewayを作成した際にapiGatewayがなんのlambdaを呼ぶかの設定という認識でいい？
   apiGateway.addDependency(lambda);
 
-  deploylist.map((deployListItem) => {
+  deploylist.forEach((deployListItem) => {
     lambda.deploy({
       stackNameSuffix: STACK_NAME_SUFFIX,
       name: deployListItem.name,

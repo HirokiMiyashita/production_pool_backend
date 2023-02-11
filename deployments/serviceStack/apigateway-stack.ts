@@ -5,6 +5,7 @@ import {
   LambdaIntegration,
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
+import { ServicePrincipal } from "aws-cdk-lib/aws-iam";
 // import { UserPool } from "aws-cdk-lib/aws-cognito";
 import { Construct } from "constructs";
 import { DeploySetting } from "../deploy-list";
@@ -63,7 +64,7 @@ export class ApiStack extends Stack {
     //リソースの作成
     let resorce = this.restApi.root.addResource(props.setting.urls[0]);
     props.setting.urls.shift();
-    props.setting.urls.map((resorceItem) => {
+    props.setting.urls.forEach((resorceItem) => {
       resorce = resorce.addResource(resorceItem);
     });
 
@@ -82,7 +83,8 @@ export class ApiStack extends Stack {
     );
 
     stackDevideFunction.addPermission("myFunctionPermission", {
-      principal: "lambda",
+      principal: new ServicePrincipal("apigateway.amazonaws.com"),
+      action: "lambda:InvokeFunction",
       sourceArn: `arn:aws:execute-api:${region}:${accountId}:${this.restApi.restApiName}/*/*/*`,
     });
   }

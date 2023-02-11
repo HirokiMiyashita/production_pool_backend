@@ -18,16 +18,16 @@ export interface LambdaProps extends StackProps {
 
 export class LambdaStack extends Stack {
   public readonly lambdas: any = {};
-  public readonly vpc: any = undefined;
+  //   public readonly vpc: any = undefined;
 
   constructor(scope: Construct, id: string, props: LambdaProps) {
     super(scope, id, props);
 
-    if (props.vpc) {
-      this.vpc = Vpc.fromLookup(this, "VPC", {
-        vpcId: props.vpc,
-      });
-    }
+    // if (props.vpc) {
+    //   this.vpc = Vpc.fromLookup(this, "VPC", {
+    //     vpcId: props.vpc,
+    //   });
+    // }
   }
   deploy(props: LambdaProps) {
     const parsedJson = props.secretJson;
@@ -43,15 +43,15 @@ export class LambdaStack extends Stack {
         environment: {
           TZ: "Asia/Tokyo",
           database: parsedJson.host,
-          port: parsedJson.port,
+          //   port: parsedJson.port,
           user: parsedJson.username,
           password: parsedJson.password,
           host: parsedJson.host,
         },
-        vpc: this.vpc,
-        vpcSubnets: {
-          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        },
+        // vpc: this.vpc,
+        // vpcSubnets: {
+        //   subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        // },
         securityGroups: [
           SecurityGroup.fromSecurityGroupId(
             this,
