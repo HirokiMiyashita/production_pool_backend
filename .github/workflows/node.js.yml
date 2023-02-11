@@ -36,5 +36,5 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     - run: cdk bootstrap
-    - run: cdk deploy -all
+    - run: cdk deploy --all
     # - run: npm test
